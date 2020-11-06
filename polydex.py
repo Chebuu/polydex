@@ -4,26 +4,26 @@ from stk import *
 # Functional Groups
 ###
 
-""" Forms an ether bond between glucose and a given linker molecule """
+""" [Dextrose] Forms an alpha 1,4-glycosidic bond at the anomeric carbon """
+C1_OH = SmartsFunctionalGroupFactory(
+    smarts='[#6]-1(-[#6]-[#6]-[#6]-[#6](-[#8]-1)-[#8]-[#1])-[#6]-[#8]-[#1]',
+    bonders=(6,),
+    deleters=(7,)
+)
+
+""" [Dextrose] Forms an alpha 1,4-glycosidic bond at C4 """
+C4_OH = SmartsFunctionalGroupFactory(
+    smarts='[#6]-1(-[#6](-[#6]-[#6]-[#6](-[#8]-1)-[#8]-[#1])-[#8]-[#1])-[#6]-[#8]-[#1]',
+    bonders=(8,),
+    deleters=(9,)
+)
+
+""" [Dextrose] Forms an ether bond between glucose and a given linker at C6 """
 C6_OH = SmartsFunctionalGroupFactory(
     smarts='[#6]-1(-[#6]-[#6]-[#6]-[#6]-[#8]-1)-[#6]-[#8]-[#1]',
     bonders=(7,),
     deleters=(8,)
 )
-
-""" Forms an alpha 1,4-glycosidic bond at the anomeric carbon """
-# C1_OH = SmartsFunctionalGroupFactory(
-#     smarts=,
-#     bonders=,
-#     deleters=
-# )
-
-""" Forms an alpha 1,4-ether bond at C4 """
-# C4_OH = SmartsFunctionalGroupFactory(
-#     smarts=,
-#     bonders=,
-#     deleters=
-# )
 
 ###
 # Building Blocks
@@ -35,7 +35,7 @@ dextrose = BuildingBlock(
     functional_groups=(C6_OH,)
 )
 
-""" Forms a link between macrocycles (CO-C[n]-OC) """
+""" Forms a single link between macrocycles (CO-C[n]-OC) """
 strut = BuildingBlock(
     smiles='CCCCBr',
     functional_groups=[BromoFactory()]
@@ -63,10 +63,10 @@ micro_unit = ConstructedMolecule(
 #     )
 # )
 
-# # Forms alpha-glycosidic cyclodextrin
+# """ Forms alpha-glycosidic cyclodextrin """
 # ConstructedMolecule(
 #     topology_graph=macrocycle.Macrocycle(
-#         building_blocks=(dextrose,dextrose),
+#         building_blocks=(dextrose,),
 #         repeating_unit='A',
 #         num_repeating_units=3,
 #     )
