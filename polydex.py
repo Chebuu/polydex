@@ -45,7 +45,7 @@ strut = BuildingBlock(
 # Constructed Molecules
 ###
 
-""" Forms six dextrose-strut ether bonds at C6 """
+""" Forms a dextrose-strut ether bond at C6 """
 micro_unit = ConstructedMolecule(
     topology_graph=polymer.Linear(
         building_blocks=(dextrose, strut),
