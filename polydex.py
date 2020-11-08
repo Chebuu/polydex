@@ -25,6 +25,20 @@ C6_OH = SmartsFunctionalGroupFactory(
     deleters=(8,)
 )
 
+""" [R-O-dextrose] Forms an alpha 1,4-glycosidic bond at the anomeric carbon """
+C1_OH_lk = SmartsFunctionalGroupFactory(
+    smarts='[#6]-1(-[#6](-[#6](-[#6](-[#6](-[#8]-1)-[#8]-[#1])-[#8]-[#1])-[#8]-[#1])-[#8]-[#1])-[#6]-[#8]',
+    bonders=(6,),
+    deleters=(7,)
+)
+
+""" [R-O-dextrose] Forms an alpha 1,4-glycosidic bond at C4 """
+C4_OH_lk = SmartsFunctionalGroupFactory(
+    smarts='[#6]-1(-[#6](-[#6](-[#6](-[#6](-[#8]-1)-[#8]-[#1])-[#8]-[#1])-[#8]-[#1])-[#8]-[#1])-[#6]-[#8]',
+    bonders=(12,),
+    deleters=(13,)
+)
+
 ###
 # Building Blocks
 ###
@@ -54,21 +68,16 @@ micro_unit = ConstructedMolecule(
     )
 )
 
-# """ Forms a dextrose starch """
-# ConstructedMolecule(
-#     topology_graph=polymer.Linear(
-#         building_blocks=(dextrose,),
-#         repeating_unit='A',
-#         num_repeating_units=6,
-#     )
-# )
+""" Forms alpha-glycosidic cyclodextrin """
+micro_block = BuildingBlock.init_from_molecule(
+    molecule=micro_unit,
+    functional_groups=(C1_OH_lk, C4_OH_lk,)
+)
 
-# """ Forms alpha-glycosidic cyclodextrin """
-# ConstructedMolecule(
-#     topology_graph=macrocycle.Macrocycle(
-#         building_blocks=(dextrose,),
-#         repeating_unit='A',
-#         num_repeating_units=3,
-#     )
-# )
-
+macro_cycle = ConstructedMolecule(
+    topology_graph=macrocycle.Macrocycle(
+        building_blocks=(micro_block,),
+        repeating_unit='A',
+        num_repeating_units=6,
+    )
+)
